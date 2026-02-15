@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var sessionBar: LinearLayout
     private lateinit var activeSessionsList: RecyclerView
     private lateinit var addSessionButton: ImageButton
+    private lateinit var refreshSessionButton: ImageButton
     private lateinit var menuButton: ImageButton
     private lateinit var webView: WebView
     private lateinit var nativeStatusBar: View
@@ -237,6 +238,7 @@ class MainActivity : AppCompatActivity(),
         sessionBar = findViewById(R.id.session_bar)
         activeSessionsList = findViewById(R.id.active_sessions_list)
         addSessionButton = findViewById(R.id.add_session_button)
+        refreshSessionButton = findViewById(R.id.refresh_session_button)
         menuButton = findViewById(R.id.menu_button)
         webView = findViewById(R.id.opencode_webview)
         nativeStatusBar = findViewById(R.id.native_status_bar)
@@ -369,6 +371,10 @@ class MainActivity : AppCompatActivity(),
 
         addSessionButton.setOnClickListener {
             onAddNewSessionClicked()
+        }
+
+        refreshSessionButton.setOnClickListener {
+            refreshCurrentSession()
         }
 
         menuButton.setOnClickListener {
@@ -657,6 +663,16 @@ class MainActivity : AppCompatActivity(),
             connectionManager.currentServerUrl?.let { url ->
                 connectToServer(url)
             }
+        }
+    }
+
+    /**
+     * Refresh the current active session by reloading the WebView.
+     */
+    private fun refreshCurrentSession() {
+        sessionManager.activeSession.value?.let { session ->
+            showLoading()
+            webView.reload()
         }
     }
 

@@ -63,6 +63,9 @@
     <string name="server_name_hint">Server name (optional)</string>
     <string name="save">Save</string>
     
+    <!-- Session Actions -->
+    <string name="refresh_session">Refresh</string>
+    
     <!-- Side Panel / Drawer -->
     <string name="open_menu">Open menu</string>
     <string name="close_menu">Close menu</string>
