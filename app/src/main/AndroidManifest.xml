@@ -8,6 +8,14 @@
     <!-- Network state permission for detecting connectivity changes -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     
+    <!-- File/Image access permissions for file uploads in WebView -->
+    <!-- For Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <!-- For Android 12 and below -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" 
+        android:maxSdkVersion="32" />
+    
     <!-- Allow cleartext traffic for local development servers -->
     <application
         android:name=".OpenCodeApplication"

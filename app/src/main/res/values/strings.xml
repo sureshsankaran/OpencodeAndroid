@@ -24,6 +24,10 @@
     <string name="error_connection_timeout">Connection timed out</string>
     <string name="error_network_unavailable">No network connection</string>
     <string name="error_server_error">Server error occurred</string>
+    <string name="error_opening_file_picker">Unable to open file picker</string>
+    
+    <!-- Permissions -->
+    <string name="permission_denied_file_access">Permission denied. Cannot access files.</string>
     
     <!-- Actions -->
     <string name="retry">Retry</string>

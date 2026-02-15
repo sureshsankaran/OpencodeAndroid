@@ -1,9 +1,13 @@
 package com.opencode.android
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -19,7 +23,10 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -98,6 +105,19 @@ class MainActivity : AppCompatActivity(),
 
     // File chooser callback
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
+    private var fileChooserParams: WebChromeClient.FileChooserParams? = null
+    
+    // Activity result launcher for file picker
+    private val filePickerLauncher: ActivityResultLauncher<Intent> = 
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            handleFilePickerResult(result.resultCode, result.data)
+        }
+    
+    // Permission launcher for file access
+    private val permissionLauncher: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            handlePermissionResult(permissions)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -964,8 +984,99 @@ class MainActivity : AppCompatActivity(),
         filePathCallback: ValueCallback<Array<Uri>>?,
         fileChooserParams: WebChromeClient.FileChooserParams?
     ) {
-        // TODO: Implement file chooser
+        // Cancel any existing callback
+        this.filePathCallback?.onReceiveValue(null)
+        
+        // Store the new callback and params
         this.filePathCallback = filePathCallback
+        this.fileChooserParams = fileChooserParams
+        
+        // Check and request permissions if needed, then open file picker
+        if (hasFilePermissions()) {
+            openFilePicker()
+        } else {
+            requestFilePermissions()
+        }
+    }
+    
+    /**
+     * Check if we have the required permissions for file access
+     */
+    private fun hasFilePermissions(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13+ uses READ_MEDIA_IMAGES
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == 
+                PackageManager.PERMISSION_GRANTED
+        } else {
+            // Android 12 and below uses READ_EXTERNAL_STORAGE
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == 
+                PackageManager.PERMISSION_GRANTED
+        }
+    }
+    
+    /**
+     * Request the required file access permissions
+     */
+    private fun requestFilePermissions() {
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13+ needs READ_MEDIA_IMAGES and READ_MEDIA_VIDEO
+            arrayOf(
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO
+            )
+        } else {
+            // Android 12 and below needs READ_EXTERNAL_STORAGE
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+        permissionLauncher.launch(permissions)
+    }
+    
+    /**
+     * Handle the result of permission request
+     */
+    private fun handlePermissionResult(permissions: Map<String, Boolean>) {
+        val allGranted = permissions.values.all { it }
+        if (allGranted) {
+            openFilePicker()
+        } else {
+            // Permission denied - cancel the file chooser
+            filePathCallback?.onReceiveValue(null)
+            filePathCallback = null
+            Toast.makeText(this, R.string.permission_denied_file_access, Toast.LENGTH_SHORT).show()
+        }
+    }
+    
+    /**
+     * Open the file picker intent
+     */
+    private fun openFilePicker() {
+        try {
+            val intent = fileChooserParams?.createIntent() ?: Intent(Intent.ACTION_GET_CONTENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "image/*"
+            }
+            filePickerLauncher.launch(intent)
+        } catch (e: Exception) {
+            android.util.Log.e("MainActivity", "Error opening file picker", e)
+            filePathCallback?.onReceiveValue(null)
+            filePathCallback = null
+            Toast.makeText(this, R.string.error_opening_file_picker, Toast.LENGTH_SHORT).show()
+        }
+    }
+    
+    /**
+     * Handle the result from the file picker
+     */
+    private fun handleFilePickerResult(resultCode: Int, data: Intent?) {
+        if (resultCode == RESULT_OK && data != null) {
+            val result = WebChromeClient.FileChooserParams.parseResult(resultCode, data)
+            filePathCallback?.onReceiveValue(result)
+        } else {
+            // User cancelled or error
+            filePathCallback?.onReceiveValue(null)
+        }
+        filePathCallback = null
+        fileChooserParams = null
     }
 
     override fun onConsoleMessage(
