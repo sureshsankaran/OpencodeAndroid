@@ -1,0 +1,14 @@
+{
+  "name": "opencode-android",
+  "version": "1.0.0",
+  "description": "OpenCode Android thin client app",
+  "scripts": {
+    "test": "./bun test ./tests/*.e2e.ts",
+    "test:bun": "./bun test tests/**/*.e2e.ts",
+    "test:e2e": "./run_e2e_tests.sh --all",
+    "verify": "./verify_project.sh"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  }
+}

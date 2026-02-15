@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Session Tab Dimensions -->
+    <dimen name="session_tab_active_stroke">2dp</dimen>
+    <dimen name="session_tab_inactive_stroke">1dp</dimen>
+    <dimen name="session_tab_active_elevation">4dp</dimen>
+    <dimen name="session_tab_inactive_elevation">2dp</dimen>
+    
+    <!-- Session Bar -->
+    <dimen name="session_bar_height">56dp</dimen>
+    <dimen name="session_bar_padding">8dp</dimen>
+</resources>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OpenCode</string>
+    
+    <!-- Connection Screen -->
+    <string name="connection_title">OpenCode</string>
+    <string name="server_url_hint">Enter server URL (e.g., http://localhost:3000)</string>
+    <string name="connect_button">Connect</string>
+    <string name="recent_servers">Recent Servers</string>
+    <string name="no_recent_servers">No recent servers</string>
+    <string name="clear_history">Clear History</string>
+    <string name="settings">Settings</string>
+    
+    <!-- Connection Status -->
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_connecting">Connecting…</string>
+    <string name="status_offline">Offline</string>
+    <string name="status_error">Error</string>
+    
+    <!-- Errors -->
+    <string name="error_invalid_url">Please enter a valid URL</string>
+    <string name="error_connection_failed">Could not connect to server</string>
+    <string name="error_connection_timeout">Connection timed out</string>
+    <string name="error_network_unavailable">No network connection</string>
+    <string name="error_server_error">Server error occurred</string>
+    
+    <!-- Actions -->
+    <string name="retry">Retry</string>
+    <string name="reconnect">Reconnect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear">Clear</string>
+    <string name="ok">OK</string>
+    
+    <!-- Dialogs -->
+    <string name="clear_history_title">Clear History?</string>
+    <string name="clear_history_message">This will remove all saved server URLs.</string>
+    
+    <!-- WebView -->
+    <string name="webview_loading">Loading…</string>
+    <string name="webview_error_title">Connection Lost</string>
+    <string name="webview_error_message">Unable to connect to the server. Please check your connection and try again.</string>
+    
+    <!-- Session Management -->
+    <string name="add_new_session">Add new session</string>
+    <string name="close_session">Close session</string>
+    <string name="session_limit_title">Session Limit Reached</string>
+    <string name="session_limit_message">You can have up to %d active sessions. Please close an existing session to add a new one.</string>
+    <string name="close_session_title">Close Session?</string>
+    <string name="close_session_message">Are you sure you want to close the session to %s?</string>
+    <string name="switch_session">Switch to this session</string>
+    <string name="active_sessions">Active Sessions</string>
+    <string name="no_active_sessions">No active sessions</string>
+    <string name="switch_server">Switch Server</string>
+    <string name="add_server">Add Server</string>
+    <string name="add_new_server">Add New Server</string>
+    <string name="edit_server">Edit Server</string>
+    <string name="server_name_hint">Server name (optional)</string>
+    <string name="save">Save</string>
+    
+    <!-- Side Panel / Drawer -->
+    <string name="open_menu">Open menu</string>
+    <string name="close_menu">Close menu</string>
+    <string name="new_session">New Session</string>
+    <string name="sessions_count">%d active session(s)</string>
+</resources>

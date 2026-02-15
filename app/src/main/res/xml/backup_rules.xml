@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Include shared preferences for server URLs -->
+    <include domain="sharedpref" path="opencode_prefs.xml" />
+    
+    <!-- Exclude sensitive data -->
+    <exclude domain="database" path="webview.db" />
+    <exclude domain="sharedpref" path="WebViewChromiumPrefs.xml" />
+</full-backup-content>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- Include shared preferences for server URLs -->
+        <include domain="sharedpref" path="opencode_prefs.xml" />
+        
+        <!-- Exclude sensitive data -->
+        <exclude domain="database" path="webview.db" />
+        <exclude domain="sharedpref" path="WebViewChromiumPrefs.xml" />
+    </cloud-backup>
+    
+    <device-transfer>
+        <include domain="sharedpref" path="opencode_prefs.xml" />
+    </device-transfer>
+</data-extraction-rules>
